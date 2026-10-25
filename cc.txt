@@ -1,0 +1,86 @@
+Claude commands
+
+Ultra review - /code-review ultra
+
+/diff: shows your working-tree changes so you can see exactly what Claude edited before you commit. Use it after any task as a quick check.
+/goal [condition]: tells Claude to keep working across turns until a condition you set is met, e.g. "all tests pass". /goal clear cancels it. It's useful for tasks that would otherwise need you to keep typing "continue".
+/code-review (alias /review): a bug-focused review of a PR, branch or path. Options include a depth level (low up to max, or ultra), --fix to apply fixes, and --comment to post comments on the PR. Example: /code-review high --fix 1234.
+
+Ctrl+T task list: this is how the team coordinates and how you see who's doing what, what's pending and what's blocked
+
+/keybindings
+
+Agent teams display mode. tmux lets each teammate run in its own split pane so you can watch them all at once.
+Set it with "teammateMode": "tmux" in settings, or run claude --teammate-mode tmux.
+
+Practice drill: start tmux, run claude --teammate-mode tmux, then ask for "three teammates" and watch the panes appear.
+
+Worktree basics: claude -w feature-auth (creates .claude/worktrees/feature-auth/ on branch worktree-feature-auth). Add .claude/worktrees/ to .gitignore.
+
+Parallel sessions: open 2 terminals, run claude -w a and claude -w b, give each a different task.
+
+PR review: claude -w "#1234" checks out a PR in its own worktree
+
+Control: Ctrl+B backgrounds a task, /tasks lists them, Ctrl+X Ctrl+K stops all background subagents
+
+Cleanup: git worktree list, then git worktree remove <path>
+
+
+
+# One-off queries
+claude -p "Explain what this project does"
+
+# Structured output for scripts
+claude -p "List all API endpoints" --output-format json
+
+# Streaming for real-time processing
+claude -p "Analyze this log file" --output-format stream-json --verbose
+
+Change focus - tab left or shift+tab right
+
+transcript view (Ctrl+O)
+showThinkingSummaries=true in settings.json
+
+with Ctrl+X Tab - move focus into the "band above the prompt"
+
+scroll:pageUp	PageUp
+scroll:pageDown	PageDown
+scroll:top	Ctrl+Home	
+scroll:bottom	Ctrl+End
+
+# 1. Create and check out the feature branch from main
+cd repo
+git checkout main && git pull
+git checkout -b feature/jira-100
+
+# 2. Create 3 worktrees, each with its own branch off feature/jira-100
+git worktree add ../jira100-1 -b feature/jira100-1 feature/jira-100
+git worktree add ../jira100-2 -b feature/jira100-2 feature/jira-100
+git worktree add ../jira100-3 -b feature/jira100-3 feature/jira-100
+
+# 3. Work and commit in each worktree
+cd ../jira100-1
+git add -A && git commit -m "JIRA-100: part 1"
+# repeat in ../jira100-2 and ../jira100-3
+
+# 4. Rebase the feature branch onto latest main (from repo/)
+cd ../repo
+git fetch origin
+git rebase origin/main            # while on feature/jira-100
+
+# 5. Merge the 3 branches into feature/jira-100 (from repo/)
+git merge feature/jira100-1
+git merge feature/jira100-2
+git merge feature/jira100-3
+
+# 6. Push to remote
+git push -u origin feature/jira-100
+# if you rebased after already pushing:
+git push --force-with-lease
+
+# 7. Clean up
+git worktree remove ../jira100-1
+git worktree remove ../jira100-2
+git worktree remove ../jira100-3
+git branch -d feature/jira100-1 feature/jira100-2 feature/jira100-3
+
