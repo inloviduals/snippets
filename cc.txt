@@ -84,3 +84,7 @@ git worktree remove ../jira100-2
 git worktree remove ../jira100-3
 git branch -d feature/jira100-1 feature/jira100-2 feature/jira100-3
 
+
+cc() { claude --add-dir ~/docs "@$HOME/docs/contexts/$1.md load this as context and wait"; }
+
+claude "@$HOME/docs/contexts/payments.md load this as context and wait for my next instruction"
