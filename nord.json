@@ -1,0 +1,17 @@
+{
+  "name": "Nord",
+  "base": "dark",
+  "overrides": {
+    "claude": "#88c0d0",
+    "claudeShimmer": "#8fbcbb",
+    "text": "#d8dee9",
+    "subtle": "#4c566a",
+    "promptBorder": "#434c5e",
+    "success": "#a3be8c",
+    "warning": "#ebcb8b",
+    "error": "#bf616a",
+    "diffAdded": "#a3be8c",
+    "diffRemoved": "#bf616a",
+    "userMessageBackground": "#2e3440"
+  }
+}

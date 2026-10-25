@@ -1,0 +1,17 @@
+{
+  "name": "Everforest",
+  "base": "dark",
+  "overrides": {
+    "claude": "#a7c080",
+    "claudeShimmer": "#83c092",
+    "text": "#d3c6aa",
+    "subtle": "#859289",
+    "promptBorder": "#374140",
+    "success": "#a7c080",
+    "warning": "#dbbc7f",
+    "error": "#e67e80",
+    "diffAdded": "#a7c080",
+    "diffRemoved": "#e67e80",
+    "userMessageBackground": "#2b3339"
+  }
+}
